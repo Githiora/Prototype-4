@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     private float speed = 5;
     private Rigidbody playerRb;
     private GameObject focalPointGameObject;
-    private bool hasPowerup = false;
+    public bool hasPowerup = false;
     private float powerUpStrength = 15;
 
     // Start is called before the first frame update
@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(other.gameObject);
             hasPowerup = true;
+            StartCoroutine(PowerupCountdownTimer());
         }
     }
 
@@ -43,5 +44,11 @@ public class PlayerController : MonoBehaviour
             Vector3 awayFromPlayer = other.gameObject.transform.position - transform.position;
             enemyRb.AddForce(awayFromPlayer * powerUpStrength, ForceMode.Impulse);
         }
+    }
+
+    IEnumerator PowerupCountdownTimer()
+    {
+        yield return new WaitForSeconds(7);
+        hasPowerup = false;
     }
 }
